@@ -84,6 +84,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.eList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "errorLog";
             this.ShowInTaskbar = false;
             this.Text = "Log";

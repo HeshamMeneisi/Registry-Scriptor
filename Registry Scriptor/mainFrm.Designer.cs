@@ -59,10 +59,12 @@
             this.cbc_cb = new System.Windows.Forms.CheckBox();
             this.ncm = new System.Windows.Forms.CheckBox();
             this.watchC = new System.Windows.Forms.CheckBox();
-            this.WCEx = new System.Windows.Forms.CheckBox();
-            this.WCIn = new System.Windows.Forms.CheckBox();
+            this.incexcpanel = new System.Windows.Forms.Panel();
+            this.WCIn = new System.Windows.Forms.RadioButton();
+            this.WCEx = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
+            this.incexcpanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -109,7 +111,7 @@
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -289,9 +291,9 @@
             this.cbc_cb.AutoSize = true;
             this.cbc_cb.Location = new System.Drawing.Point(365, 212);
             this.cbc_cb.Name = "cbc_cb";
-            this.cbc_cb.Size = new System.Drawing.Size(186, 17);
+            this.cbc_cb.Size = new System.Drawing.Size(180, 17);
             this.cbc_cb.TabIndex = 8;
-            this.cbc_cb.Text = "Incluede 32Bit/64Bit Counterparts";
+            this.cbc_cb.Text = "Include 32Bit/64Bit Counterparts";
             this.cbc_cb.UseVisualStyleBackColor = true;
             // 
             // ncm
@@ -307,7 +309,7 @@
             // watchC
             // 
             this.watchC.AutoSize = true;
-            this.watchC.Location = new System.Drawing.Point(500, 13);
+            this.watchC.Location = new System.Drawing.Point(500, 11);
             this.watchC.Name = "watchC";
             this.watchC.Size = new System.Drawing.Size(104, 17);
             this.watchC.TabIndex = 10;
@@ -315,39 +317,45 @@
             this.watchC.UseVisualStyleBackColor = true;
             this.watchC.CheckedChanged += new System.EventHandler(this.watchC_CheckedChanged);
             // 
-            // WCEx
+            // incexcpanel
             // 
-            this.WCEx.AutoSize = true;
-            this.WCEx.Location = new System.Drawing.Point(567, 33);
-            this.WCEx.Name = "WCEx";
-            this.WCEx.Size = new System.Drawing.Size(64, 17);
-            this.WCEx.TabIndex = 10;
-            this.WCEx.Text = "Exclude";
-            this.WCEx.UseVisualStyleBackColor = true;
-            this.WCEx.Visible = false;
-            this.WCEx.CheckedChanged += new System.EventHandler(this.WCEx_CheckedChanged);
+            this.incexcpanel.Controls.Add(this.WCEx);
+            this.incexcpanel.Controls.Add(this.WCIn);
+            this.incexcpanel.Location = new System.Drawing.Point(500, 34);
+            this.incexcpanel.Name = "incexcpanel";
+            this.incexcpanel.Size = new System.Drawing.Size(149, 19);
+            this.incexcpanel.TabIndex = 11;
             // 
             // WCIn
             // 
             this.WCIn.AutoSize = true;
-            this.WCIn.Checked = true;
-            this.WCIn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.WCIn.Location = new System.Drawing.Point(500, 33);
+            this.WCIn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.WCIn.Location = new System.Drawing.Point(0, 0);
             this.WCIn.Name = "WCIn";
-            this.WCIn.Size = new System.Drawing.Size(61, 17);
-            this.WCIn.TabIndex = 10;
+            this.WCIn.Size = new System.Drawing.Size(60, 19);
+            this.WCIn.TabIndex = 0;
+            this.WCIn.TabStop = true;
             this.WCIn.Text = "Include";
             this.WCIn.UseVisualStyleBackColor = true;
-            this.WCIn.Visible = false;
-            this.WCIn.CheckedChanged += new System.EventHandler(this.WCIn_CheckedChanged);
+            // 
+            // WCEx
+            // 
+            this.WCEx.AutoSize = true;
+            this.WCEx.Dock = System.Windows.Forms.DockStyle.Right;
+            this.WCEx.Location = new System.Drawing.Point(86, 0);
+            this.WCEx.Name = "WCEx";
+            this.WCEx.Size = new System.Drawing.Size(63, 19);
+            this.WCEx.TabIndex = 0;
+            this.WCEx.TabStop = true;
+            this.WCEx.Text = "Exclude";
+            this.WCEx.UseVisualStyleBackColor = true;
             // 
             // mainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(661, 510);
-            this.Controls.Add(this.WCEx);
-            this.Controls.Add(this.WCIn);
+            this.Controls.Add(this.incexcpanel);
             this.Controls.Add(this.watchC);
             this.Controls.Add(this.ncm);
             this.Controls.Add(this.cbc_cb);
@@ -372,9 +380,12 @@
             this.MaximizeBox = false;
             this.Name = "mainFrm";
             this.Text = "Registry Scriptor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainFrm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            this.incexcpanel.ResumeLayout(false);
+            this.incexcpanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -411,8 +422,9 @@
         private System.Windows.Forms.CheckBox cbc_cb;
         private System.Windows.Forms.CheckBox ncm;
         private System.Windows.Forms.CheckBox watchC;
-        private System.Windows.Forms.CheckBox WCEx;
-        private System.Windows.Forms.CheckBox WCIn;
+        private System.Windows.Forms.Panel incexcpanel;
+        private System.Windows.Forms.RadioButton WCEx;
+        private System.Windows.Forms.RadioButton WCIn;
     }
 }
 

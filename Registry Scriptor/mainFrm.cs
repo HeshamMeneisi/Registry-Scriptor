@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.IO;
+using Registry_Scriptor.Properties;
 
 namespace Registry_Scriptor
 {
@@ -14,6 +15,9 @@ namespace Registry_Scriptor
         public mainFrm()
         {
             InitializeComponent();
+            watchC.DataBindings.Add("Checked", Settings.Default, "WatchClipboard");
+            cbc_cb.DataBindings.Add("Checked", Settings.Default, "BitCounterparts");
+            ncm.DataBindings.Add("Checked", Settings.Default, "NoComments");
         }
         #region GUI Code
         public static errorLog logFrm = new errorLog();
@@ -31,6 +35,9 @@ namespace Registry_Scriptor
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            WCIn.Checked = Settings.Default.IncludeCP;
+            WCEx.Checked = !Settings.Default.IncludeCP;
+            incexcpanel.Visible = watchC.Checked;
             anUpdate.Elapsed += anUpdate_Elapsed;
             logFrm.relativePos = new Point(this.Width + 5, 0);
             logFrm.Show(this);
@@ -95,7 +102,7 @@ namespace Registry_Scriptor
             count = 0;
             kNames.Clear();
             List<string> keys = new List<string>();
-            List<string> excluded = new List<string>();
+            HashSet<string> excluded = new HashSet<string>();
             this.Invoke((MethodInvoker)delegate
             {
                 op.Text = "Analyzing...";
@@ -197,7 +204,7 @@ namespace Registry_Scriptor
 
         private void watchC_CheckedChanged(object sender, EventArgs e)
         {
-            WCIn.Visible = WCEx.Visible = watchC.Checked;
+            incexcpanel.Visible = watchC.Checked;
             WatchClipboard(watchC.Checked);
         }
         Timer WCT;
@@ -229,19 +236,16 @@ namespace Registry_Scriptor
             }
         }
 
-        private void WCIn_CheckedChanged(object sender, EventArgs e)
-        {
-            WCEx.Checked = !WCIn.Checked;
-        }
-
-        private void WCEx_CheckedChanged(object sender, EventArgs e)
-        {
-            WCIn.Checked = !WCEx.Checked;
-        }
         ToolTip tt = new ToolTip();
         private void stL_MouseHover(object sender, EventArgs e)
         {
             tt.Show(stL.Text, stL);
+        }
+
+        private void mainFrm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Settings.Default.IncludeCP = WCIn.Checked;
+            Settings.Default.Save();
         }
     }
 }
