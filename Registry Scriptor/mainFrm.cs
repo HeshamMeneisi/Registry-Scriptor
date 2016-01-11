@@ -12,8 +12,12 @@ namespace Registry_Scriptor
 {
     public partial class mainFrm : Form
     {
+        ThreadedWorker analyzer;
+        ThreadedWorker worker;
         public mainFrm()
         {
+            analyzer = new ThreadedWorker(() => analyzer_DoWork(), (o) => analyzer_RunWorkerCompleted(o));
+            worker = new ThreadedWorker(() => worker_DoWork(), (o) => worker_RunWorkerCompleted(o));
             InitializeComponent();
             watchC.DataBindings.Add("Checked", Settings.Default, "WatchClipboard");
             cbc_cb.DataBindings.Add("Checked", Settings.Default, "BitCounterparts");
@@ -23,12 +27,30 @@ namespace Registry_Scriptor
         public static errorLog logFrm = new errorLog();
         private void action_Click(object sender, EventArgs e)
         {
-            analyze_Btn.Enabled = script_Btn.Enabled = false;
-            if (((Control)sender).Tag.ToString() == "s")
-                script = true;
+            if (analyzer.IsBusy || worker.IsBusy)
+            {
+                if (script)
+                {
+                    script = false;
+                    script_Btn.Enabled = false;
+                    script_Btn.Text = "Cancelling";
+                    analyzer.CancelAsync();
+                    worker.CancelAsync();
+                }
+                else
+                {
+                    analyze_Btn.Enabled = false;
+                    analyze_Btn.Text = "Cancelling";
+                    analyzer.CancelAsync();
+                }
+            }
             else
-                script = false;
-            analyzer.RunWorkerAsync();
+            {
+                script = script_Btn.Enabled = ((Control)sender).Tag.ToString() == "s";
+                analyze_Btn.Enabled = !script;
+                if (script) script_Btn.Text = "Cancel"; else analyze_Btn.Text = "Cancel";
+                analyzer.RunWorkerAsync();
+            }
         }
 
         System.Timers.Timer anUpdate = new System.Timers.Timer { Interval = 1, AutoReset = true };
@@ -97,7 +119,7 @@ namespace Registry_Scriptor
         int ccount = 0;
         List<RegistryKey> kNames = new List<RegistryKey>();
         List<string> errors = new List<string>();
-        private void analyzer_DoWork(object sender, DoWorkEventArgs e)
+        private void analyzer_DoWork()
         {
             count = 0;
             kNames.Clear();
@@ -124,22 +146,28 @@ namespace Registry_Scriptor
             Scriptor.ListKeys(keys.ToArray(), ref count, ref kNames, ref errors, excluded);
         }
 
-        private void analyzer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void analyzer_RunWorkerCompleted(ThreadedWorkerOutcome outcome)
         {
-            anUpdate.Enabled = false;
-            anUpdate.Stop();
-            if (script)
-                worker.RunWorkerAsync();
-            else
+            Invoke(new MethodInvoker(delegate
             {
-                analyze_Btn.Enabled = script_Btn.Enabled = true;
-                op.Text = "Done!";
-                stL.Text = "(" + count + " Keys)";
-            }
+                anUpdate.Enabled = false;
+                anUpdate.Stop();
+                analyze_Btn.Text = "Analyze";
+                if (outcome == ThreadedWorkerOutcome.Cancelled)
+                    script_Btn.Text = "Script";
+                if (script)
+                    worker.RunWorkerAsync();
+                else
+                {
+                    analyze_Btn.Enabled = script_Btn.Enabled = true;
+                    op.Text = outcome.ToString();
+                    stL.Text = "(" + count + " Keys)";
+                }
+            }));
         }
         const string scriptHeader = "Windows Registry Editor Version 5.00";
         string sc = "";
-        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        private void worker_DoWork()
         {
             string _32bit = "";
             string _64bit = "";
@@ -172,12 +200,16 @@ namespace Registry_Scriptor
             sc += ((_32bit != "") ? ((CommentsAllowed()) ? "\n\n;32Bit Copies" + _32bit : _32bit) : "") + ((_64bit != "") ? ((CommentsAllowed()) ? "\n\n;64Bit Copies" + _64bit : _64bit) : "");
         }
 
-        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void worker_RunWorkerCompleted(ThreadedWorkerOutcome outcome)
         {
-            analyze_Btn.Enabled = script_Btn.Enabled = true;
-            op.Text = "Done!";
-            stL.Text = "(Scripted " + count + " Keys)" + ((cbc_cb.Checked && ccount > 0) ? " (Added " + ccount + " Copies)" : "");
-            sc_text.Text = sc;
+            this.Invoke(new MethodInvoker(delegate
+            {
+                analyze_Btn.Enabled = script_Btn.Enabled = true;
+                script_Btn.Text = "Script";
+                op.Text = outcome.ToString();
+                stL.Text = "(Scripted " + ccount + "/" + count + " Keys)" + ((cbc_cb.Checked && ccount > 0) ? " (Added " + ccount + " Copies)" : "");
+                sc_text.Text = sc;
+            }));
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -244,8 +276,30 @@ namespace Registry_Scriptor
 
         private void mainFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            analyzer.CancelAsync();
+            worker.CancelAsync();
             Settings.Default.IncludeCP = WCIn.Checked;
             Settings.Default.Save();
+        }
+
+        private void progr_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void inc_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exc_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void incexcpanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

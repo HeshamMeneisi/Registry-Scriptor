@@ -43,9 +43,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.stL = new System.Windows.Forms.Label();
             this.progr = new System.Windows.Forms.ProgressBar();
-            this.analyzer = new System.ComponentModel.BackgroundWorker();
             this.op = new System.Windows.Forms.Label();
-            this.worker = new System.ComponentModel.BackgroundWorker();
             this.analyze_Btn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.exc_list = new System.Windows.Forms.ListView();
@@ -94,6 +92,7 @@
             this.inc_list.TabIndex = 2;
             this.inc_list.UseCompatibleStateImageBehavior = false;
             this.inc_list.View = System.Windows.Forms.View.Details;
+            this.inc_list.SelectedIndexChanged += new System.EventHandler(this.inc_list_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -176,11 +175,7 @@
             this.progr.Name = "progr";
             this.progr.Size = new System.Drawing.Size(393, 23);
             this.progr.TabIndex = 6;
-            // 
-            // analyzer
-            // 
-            this.analyzer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.analyzer_DoWork);
-            this.analyzer.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.analyzer_RunWorkerCompleted);
+            this.progr.Click += new System.EventHandler(this.progr_Click);
             // 
             // op
             // 
@@ -189,11 +184,6 @@
             this.op.Name = "op";
             this.op.Size = new System.Drawing.Size(0, 13);
             this.op.TabIndex = 5;
-            // 
-            // worker
-            // 
-            this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.worker_DoWork);
-            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.worker_RunWorkerCompleted);
             // 
             // analyze_Btn
             // 
@@ -228,6 +218,7 @@
             this.exc_list.TabIndex = 2;
             this.exc_list.UseCompatibleStateImageBehavior = false;
             this.exc_list.View = System.Windows.Forms.View.Details;
+            this.exc_list.SelectedIndexChanged += new System.EventHandler(this.exc_list_SelectedIndexChanged);
             // 
             // columnHeader2
             // 
@@ -325,6 +316,7 @@
             this.incexcpanel.Name = "incexcpanel";
             this.incexcpanel.Size = new System.Drawing.Size(149, 19);
             this.incexcpanel.TabIndex = 11;
+            this.incexcpanel.Paint += new System.Windows.Forms.PaintEventHandler(this.incexcpanel_Paint);
             // 
             // WCIn
             // 
@@ -406,9 +398,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label stL;
         private System.Windows.Forms.ProgressBar progr;
-        private System.ComponentModel.BackgroundWorker analyzer;
         private System.Windows.Forms.Label op;
-        private System.ComponentModel.BackgroundWorker worker;
         private System.Windows.Forms.Button analyze_Btn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListView exc_list;
