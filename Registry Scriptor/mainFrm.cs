@@ -46,6 +46,7 @@ namespace Registry_Scriptor
             }
             else
             {
+                inputpanel.Enabled = false;
                 script = script_Btn.Enabled = ((Control)sender).Tag.ToString() == "s";
                 analyze_Btn.Enabled = !script;
                 if (script) script_Btn.Text = "Cancel"; else analyze_Btn.Text = "Cancel";
@@ -162,6 +163,7 @@ namespace Registry_Scriptor
                     analyze_Btn.Enabled = script_Btn.Enabled = true;
                     op.Text = outcome.ToString();
                     stL.Text = "(" + count + " Keys)";
+                    inputpanel.Enabled = true;
                 }
             }));
         }
@@ -209,6 +211,7 @@ namespace Registry_Scriptor
                 op.Text = outcome.ToString();
                 stL.Text = "(Scripted " + ccount + "/" + count + " Keys)" + ((cbc_cb.Checked && ccount > 0) ? " (Added " + ccount + " Copies)" : "");
                 sc_text.Text = sc;
+                inputpanel.Enabled = true;
             }));
         }
 
@@ -258,6 +261,7 @@ namespace Registry_Scriptor
         private void WCTT(object sender, EventArgs e)
         {
             string s = Clipboard.GetText();
+            if (analyzer.IsBusy || worker.IsBusy || !s.StartsWith("HKEY")) return;
             if (s != lcl)
             {
                 lcl = s;
@@ -280,26 +284,6 @@ namespace Registry_Scriptor
             worker.CancelAsync();
             Settings.Default.IncludeCP = WCIn.Checked;
             Settings.Default.Save();
-        }
-
-        private void progr_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void inc_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void exc_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void incexcpanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

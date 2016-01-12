@@ -73,7 +73,7 @@
             // Error
             // 
             this.Error.Text = "Error";
-            this.Error.Width = 114;
+            this.Error.Width = 173;
             // 
             // errorLog
             // 

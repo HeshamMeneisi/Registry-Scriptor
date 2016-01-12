@@ -58,16 +58,18 @@
             this.ncm = new System.Windows.Forms.CheckBox();
             this.watchC = new System.Windows.Forms.CheckBox();
             this.incexcpanel = new System.Windows.Forms.Panel();
-            this.WCIn = new System.Windows.Forms.RadioButton();
             this.WCEx = new System.Windows.Forms.RadioButton();
+            this.WCIn = new System.Windows.Forms.RadioButton();
+            this.inputpanel = new System.Windows.Forms.Panel();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.incexcpanel.SuspendLayout();
+            this.inputpanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(73, 13);
+            this.textBox1.Location = new System.Drawing.Point(73, 6);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(259, 20);
             this.textBox1.TabIndex = 0;
@@ -75,7 +77,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 16);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 1;
@@ -86,13 +88,12 @@
             this.inc_list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
             this.inc_list.ContextMenuStrip = this.contextMenuStrip1;
-            this.inc_list.Location = new System.Drawing.Point(13, 56);
+            this.inc_list.Location = new System.Drawing.Point(13, 49);
             this.inc_list.Name = "inc_list";
             this.inc_list.Size = new System.Drawing.Size(308, 101);
             this.inc_list.TabIndex = 2;
             this.inc_list.UseCompatibleStateImageBehavior = false;
             this.inc_list.View = System.Windows.Forms.View.Details;
-            this.inc_list.SelectedIndexChanged += new System.EventHandler(this.inc_list_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -126,7 +127,7 @@
             // 
             // script_Btn
             // 
-            this.script_Btn.Location = new System.Drawing.Point(493, 183);
+            this.script_Btn.Location = new System.Drawing.Point(492, 206);
             this.script_Btn.Name = "script_Btn";
             this.script_Btn.Size = new System.Drawing.Size(75, 23);
             this.script_Btn.TabIndex = 4;
@@ -137,7 +138,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(574, 183);
+            this.button2.Location = new System.Drawing.Point(573, 206);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -147,7 +148,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(338, 11);
+            this.button3.Location = new System.Drawing.Point(338, 4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -163,7 +164,7 @@
             // 
             // stL
             // 
-            this.stL.Location = new System.Drawing.Point(73, 161);
+            this.stL.Location = new System.Drawing.Point(73, 186);
             this.stL.Name = "stL";
             this.stL.Size = new System.Drawing.Size(576, 12);
             this.stL.TabIndex = 5;
@@ -171,23 +172,22 @@
             // 
             // progr
             // 
-            this.progr.Location = new System.Drawing.Point(13, 183);
+            this.progr.Location = new System.Drawing.Point(12, 206);
             this.progr.Name = "progr";
             this.progr.Size = new System.Drawing.Size(393, 23);
             this.progr.TabIndex = 6;
-            this.progr.Click += new System.EventHandler(this.progr_Click);
             // 
             // op
             // 
             this.op.AutoSize = true;
-            this.op.Location = new System.Drawing.Point(12, 160);
+            this.op.Location = new System.Drawing.Point(12, 185);
             this.op.Name = "op";
             this.op.Size = new System.Drawing.Size(0, 13);
             this.op.TabIndex = 5;
             // 
             // analyze_Btn
             // 
-            this.analyze_Btn.Location = new System.Drawing.Point(412, 183);
+            this.analyze_Btn.Location = new System.Drawing.Point(411, 206);
             this.analyze_Btn.Name = "analyze_Btn";
             this.analyze_Btn.Size = new System.Drawing.Size(75, 23);
             this.analyze_Btn.TabIndex = 4;
@@ -198,7 +198,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(419, 11);
+            this.button1.Location = new System.Drawing.Point(419, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
@@ -212,13 +212,12 @@
             this.exc_list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2});
             this.exc_list.ContextMenuStrip = this.contextMenuStrip2;
-            this.exc_list.Location = new System.Drawing.Point(352, 56);
+            this.exc_list.Location = new System.Drawing.Point(352, 49);
             this.exc_list.Name = "exc_list";
             this.exc_list.Size = new System.Drawing.Size(297, 101);
             this.exc_list.TabIndex = 2;
             this.exc_list.UseCompatibleStateImageBehavior = false;
             this.exc_list.View = System.Windows.Forms.View.Details;
-            this.exc_list.SelectedIndexChanged += new System.EventHandler(this.exc_list_SelectedIndexChanged);
             // 
             // columnHeader2
             // 
@@ -242,7 +241,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 40);
+            this.label2.Location = new System.Drawing.Point(14, 33);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 13);
             this.label2.TabIndex = 1;
@@ -251,7 +250,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(349, 40);
+            this.label3.Location = new System.Drawing.Point(349, 33);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 13);
             this.label3.TabIndex = 1;
@@ -259,7 +258,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(328, 79);
+            this.button4.Location = new System.Drawing.Point(328, 72);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(18, 23);
             this.button4.TabIndex = 7;
@@ -269,7 +268,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(328, 108);
+            this.button5.Location = new System.Drawing.Point(328, 101);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(18, 23);
             this.button5.TabIndex = 7;
@@ -280,7 +279,7 @@
             // cbc_cb
             // 
             this.cbc_cb.AutoSize = true;
-            this.cbc_cb.Location = new System.Drawing.Point(365, 212);
+            this.cbc_cb.Location = new System.Drawing.Point(352, 163);
             this.cbc_cb.Name = "cbc_cb";
             this.cbc_cb.Size = new System.Drawing.Size(180, 17);
             this.cbc_cb.TabIndex = 8;
@@ -290,7 +289,7 @@
             // ncm
             // 
             this.ncm.AutoSize = true;
-            this.ncm.Location = new System.Drawing.Point(557, 212);
+            this.ncm.Location = new System.Drawing.Point(544, 163);
             this.ncm.Name = "ncm";
             this.ncm.Size = new System.Drawing.Size(92, 17);
             this.ncm.TabIndex = 9;
@@ -300,7 +299,7 @@
             // watchC
             // 
             this.watchC.AutoSize = true;
-            this.watchC.Location = new System.Drawing.Point(500, 11);
+            this.watchC.Location = new System.Drawing.Point(500, 8);
             this.watchC.Name = "watchC";
             this.watchC.Size = new System.Drawing.Size(104, 17);
             this.watchC.TabIndex = 10;
@@ -312,23 +311,10 @@
             // 
             this.incexcpanel.Controls.Add(this.WCEx);
             this.incexcpanel.Controls.Add(this.WCIn);
-            this.incexcpanel.Location = new System.Drawing.Point(500, 34);
+            this.incexcpanel.Location = new System.Drawing.Point(500, 27);
             this.incexcpanel.Name = "incexcpanel";
             this.incexcpanel.Size = new System.Drawing.Size(149, 19);
             this.incexcpanel.TabIndex = 11;
-            this.incexcpanel.Paint += new System.Windows.Forms.PaintEventHandler(this.incexcpanel_Paint);
-            // 
-            // WCIn
-            // 
-            this.WCIn.AutoSize = true;
-            this.WCIn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.WCIn.Location = new System.Drawing.Point(0, 0);
-            this.WCIn.Name = "WCIn";
-            this.WCIn.Size = new System.Drawing.Size(60, 19);
-            this.WCIn.TabIndex = 0;
-            this.WCIn.TabStop = true;
-            this.WCIn.Text = "Include";
-            this.WCIn.UseVisualStyleBackColor = true;
             // 
             // WCEx
             // 
@@ -342,32 +328,53 @@
             this.WCEx.Text = "Exclude";
             this.WCEx.UseVisualStyleBackColor = true;
             // 
+            // WCIn
+            // 
+            this.WCIn.AutoSize = true;
+            this.WCIn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.WCIn.Location = new System.Drawing.Point(0, 0);
+            this.WCIn.Name = "WCIn";
+            this.WCIn.Size = new System.Drawing.Size(60, 19);
+            this.WCIn.TabIndex = 0;
+            this.WCIn.TabStop = true;
+            this.WCIn.Text = "Include";
+            this.WCIn.UseVisualStyleBackColor = true;
+            // 
+            // inputpanel
+            // 
+            this.inputpanel.Controls.Add(this.ncm);
+            this.inputpanel.Controls.Add(this.cbc_cb);
+            this.inputpanel.Controls.Add(this.label1);
+            this.inputpanel.Controls.Add(this.textBox1);
+            this.inputpanel.Controls.Add(this.incexcpanel);
+            this.inputpanel.Controls.Add(this.label2);
+            this.inputpanel.Controls.Add(this.watchC);
+            this.inputpanel.Controls.Add(this.label3);
+            this.inputpanel.Controls.Add(this.button5);
+            this.inputpanel.Controls.Add(this.inc_list);
+            this.inputpanel.Controls.Add(this.button4);
+            this.inputpanel.Controls.Add(this.exc_list);
+            this.inputpanel.Controls.Add(this.button3);
+            this.inputpanel.Controls.Add(this.button1);
+            this.inputpanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.inputpanel.Location = new System.Drawing.Point(0, 0);
+            this.inputpanel.Name = "inputpanel";
+            this.inputpanel.Size = new System.Drawing.Size(661, 182);
+            this.inputpanel.TabIndex = 12;
+            // 
             // mainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(661, 510);
-            this.Controls.Add(this.incexcpanel);
-            this.Controls.Add(this.watchC);
-            this.Controls.Add(this.ncm);
-            this.Controls.Add(this.cbc_cb);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.progr);
-            this.Controls.Add(this.op);
             this.Controls.Add(this.stL);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.op);
+            this.Controls.Add(this.progr);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.sc_text);
             this.Controls.Add(this.analyze_Btn);
             this.Controls.Add(this.script_Btn);
-            this.Controls.Add(this.exc_list);
-            this.Controls.Add(this.inc_list);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.inputpanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "mainFrm";
@@ -378,6 +385,8 @@
             this.contextMenuStrip2.ResumeLayout(false);
             this.incexcpanel.ResumeLayout(false);
             this.incexcpanel.PerformLayout();
+            this.inputpanel.ResumeLayout(false);
+            this.inputpanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,6 +424,7 @@
         private System.Windows.Forms.Panel incexcpanel;
         private System.Windows.Forms.RadioButton WCEx;
         private System.Windows.Forms.RadioButton WCIn;
+        private System.Windows.Forms.Panel inputpanel;
     }
 }
 

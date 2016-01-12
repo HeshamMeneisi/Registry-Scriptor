@@ -15,41 +15,41 @@ namespace Registry_Scriptor
             string rootName = "";
             string subkeyName = "";
 
-            rootName = Regex.Match(keyname, "HKEY_[^\\\\]+", RegexOptions.IgnoreCase).Value;
+            rootName = Regex.Match(keyname, "HKEY_[^\\\\]+", RegexOptions.IgnoreCase).Value.ToUpper();
             if (rootName.Length < 6) return null;
             rootName = rootName.Substring(5);
 
             subkeyName = Regex.Match(keyname, "[\\\\].+").Value.Trim('\\');
 
-            if (rootName.ToUpper() == "CLASSES_ROOT")
+            if (rootName == "CLASSES_ROOT")
             {
                 if (subkeyName == "")
                     return Registry.ClassesRoot;
                 else
                     return Registry.ClassesRoot.OpenSubKey(subkeyName);
             }
-            else if (rootName.ToUpper() == "CURRENT_USER")
+            else if (rootName == "CURRENT_USER")
             {
                 if (subkeyName == "")
                     return Registry.CurrentUser;
                 else
                     return Registry.CurrentUser.OpenSubKey(subkeyName);
             }
-            else if (rootName.ToUpper() == "LOCAL_MACHINE")
+            else if (rootName == "LOCAL_MACHINE")
             {
                 if (subkeyName == "")
                     return Registry.LocalMachine;
                 else
                     return Registry.LocalMachine.OpenSubKey(subkeyName);
             }
-            else if (rootName.ToUpper() == "USERS")
+            else if (rootName == "USERS")
             {
                 if (subkeyName == "")
                     return Registry.Users;
                 else
                     return Registry.Users.OpenSubKey(subkeyName);
             }
-            else if (rootName.ToUpper() == "CURRENT_CONFIG")
+            else if (rootName == "CURRENT_CONFIG")
             {
                 if (subkeyName == "")
                     return Registry.CurrentConfig;
@@ -65,67 +65,85 @@ namespace Registry_Scriptor
             {
                 vname = val == "" ? "@" : '\"' + val + '\"';
                 script += "\r\n";
-                if (key.GetValueKind(val) == RegistryValueKind.String)
+                switch (key.GetValueKind(val))
                 {
-                    script += vname + "=\"" + key.GetValue(val).ToString().Replace("\\", "\\\\").Replace("\r\n", string.Empty) + "\"";
-                }
-                else if (key.GetValueKind(val) == RegistryValueKind.Binary)
-                {
-                    byte[] data = (byte[])key.GetValue(val);
-                    string s = vname + "=hex:";
-                    script += s + GetFormattedHexFromByteArray(data, s.Length);
-                }
-                else if (key.GetValueKind(val) == RegistryValueKind.DWord)
-                {
-                    Int32 data = ((Int32)key.GetValue(val));
-                    string s = vname + "=dword:" + data.ToString("X");
-                    script += s;
-                }
-                else if (key.GetValueKind(val) == RegistryValueKind.None)
-                {
-                    byte[] data = (byte[])key.GetValue(val);
-                    string s = vname + "=hex(0):";
-                    script += s + GetFormattedHexFromByteArray(data, s.Length);
-                }
-                else if (key.GetValueKind(val) == RegistryValueKind.ExpandString)
-                {
-                    string str = (String)key.GetValue(val);
-                    byte[] data = new byte[str.Length * 2 + 2];
-                    Encoding.Unicode.GetBytes(str).CopyTo(data, 0);
-                    string st = GetFormattedHexFromByteArray(data, vname.Length + 8);
-                    string s = vname + "=hex(2):";
+                    case RegistryValueKind.String:
+                        script += vname + "=\"" + key.GetValue(val).ToString().Replace("\\", "\\\\").Replace("\r\n", string.Empty) + "\"";
+                        break;
+                    case RegistryValueKind.Binary:
+                        {
+                            byte[] data = (byte[])key.GetValue(val);
+                            string s = vname + "=hex:";
+                            script += s + GetFormattedHexFromByteArray(data, s.Length);
+                        }
+                        break;
+                    case RegistryValueKind.DWord:
+                        {
+                            Int32 data = ((Int32)key.GetValue(val));
+                            string s = vname + "=dword:" + data.ToString("X");
+                            script += s;
+                        }
+                        break;
+                    case RegistryValueKind.None:
+                        {
+                            byte[] data = (byte[])key.GetValue(val);
+                            string s = vname + "=hex(0):";
+                            script += s + GetFormattedHexFromByteArray(data, s.Length);
+                        }
+                        break;
+                    case RegistryValueKind.ExpandString:
+                        {
+                            string str = (String)key.GetValue(val);
+                            byte[] data = new byte[str.Length * 2 + 2];
+                            Encoding.Unicode.GetBytes(str).CopyTo(data, 0);
+                            string st = GetFormattedHexFromByteArray(data, vname.Length + 8);
+                            string s = vname + "=hex(2):";
 
-                    script += s + GetFormattedHexFromByteArray(data, s.Length);
-                }
-                else if (key.GetValueKind(val) == RegistryValueKind.MultiString)
-                {
-                    string[] strings = (string[])key.GetValue(val);
-                    byte[] data = new byte[strings.Sum((st) => st.Length * 2 /*2 bytes per char*/) + 2 * (strings.Length + 1) /*end of record and empty record bytes*/];
-                    long idx = 0;
-                    foreach (string str in strings)
-                    {
-                        var bytes = Encoding.Unicode.GetBytes(str);
-                        bytes.CopyTo(data, idx);
-                        idx += bytes.Length;
-                        idx += 2;
-                    }
-                    string s = vname + "=hex(7):";
-                    script += s + GetFormattedHexFromByteArray(data, s.Length);
-                }
-                else if (key.GetValueKind(val) == RegistryValueKind.QWord)
-                {
-                    Int64 data = (Int64)key.GetValue(val);
-                    string s = vname + "=hex(b):";
-                    string st = data.ToString("X");
-                    for (int i = st.Length - 2; i >= 0; i -= 2)
-                        s += st.Substring(i, 2) + ",";
-                    script += s.Trim(',');
-                }
-                else
-                {
-                    byte[] data = (byte[])key.GetValue(val);
-                    string s = vname + "=hex:";
-                    script += s + GetFormattedHexFromByteArray(data, s.Length);
+                            script += s + GetFormattedHexFromByteArray(data, s.Length);
+                        }
+                        break;
+                    case RegistryValueKind.MultiString:
+                        {
+                            string[] strings = (string[])key.GetValue(val);
+                            byte[] data = new byte[strings.Sum((st) => st.Length * 2 /*2 bytes per char*/) + 2 * (strings.Length + 1) /*end of record and empty record bytes*/];
+                            long idx = 0;
+                            foreach (string str in strings)
+                            {
+                                var bytes = Encoding.Unicode.GetBytes(str);
+                                bytes.CopyTo(data, idx);
+                                idx += bytes.Length;
+                                idx += 2;
+                            }
+                            string s = vname + "=hex(7):";
+                            script += s + GetFormattedHexFromByteArray(data, s.Length);
+                        }
+                        break;
+                    case RegistryValueKind.QWord:
+                        {
+                            Int64 data = (Int64)key.GetValue(val);
+                            string s = vname + "=hex(b):";
+                            string st = data.ToString("X");
+                            short count = 0;
+                            for (int i = st.Length - 2; i >= 0; i -= 2)
+                            {
+                                s += st.Substring(i, 2) + ",";
+                                count++;
+                            }
+                            while (count++ < 8)
+                                s += "00,";
+                            script += s.Trim(',');
+                        }
+                        break;
+                    case RegistryValueKind.Unknown:
+                        script += "; Unsupported value: " + val;
+                        break;
+                    default:
+                        {
+                            byte[] data = (byte[])key.GetValue(val);
+                            string s = vname + "=hex:";
+                            script += s + GetFormattedHexFromByteArray(data, s.Length);
+                        }
+                        break;
                 }
             }
             return script;
@@ -133,6 +151,7 @@ namespace Registry_Scriptor
 
         private static string GetFormattedHexFromByteArray(byte[] data, int offset)
         {
+            if (data == null) return "ERROR";
             StringBuilder s = new StringBuilder();
             foreach (byte b in data)
             {
@@ -149,7 +168,7 @@ namespace Registry_Scriptor
             foreach (string k in keys)
             {
                 try
-                {                    
+                {
                     if (exclusions.Contains(k))
                         continue;
                     RegistryKey key = GetKey(k);
