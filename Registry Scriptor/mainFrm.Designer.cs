@@ -289,7 +289,7 @@
             // ncm
             // 
             this.ncm.AutoSize = true;
-            this.ncm.Location = new System.Drawing.Point(544, 163);
+            this.ncm.Location = new System.Drawing.Point(556, 162);
             this.ncm.Name = "ncm";
             this.ncm.Size = new System.Drawing.Size(92, 17);
             this.ncm.TabIndex = 9;
@@ -375,6 +375,7 @@
             this.Controls.Add(this.analyze_Btn);
             this.Controls.Add(this.script_Btn);
             this.Controls.Add(this.inputpanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "mainFrm";
